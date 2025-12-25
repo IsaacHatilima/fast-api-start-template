@@ -1,15 +1,17 @@
-from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
+from uuid import UUID
+
+from pydantic import BaseModel, EmailStr, Field
 
 
 class ProfileResponse(BaseModel):
-    id: int
+    id: UUID = Field(
+        validation_alias="public_id",
+        serialization_alias="id",
+    )
     first_name: str
     last_name: str
-    phone_number: Optional[str]
-    bio: Optional[str]
-    avatar_url: Optional[str]
     created_at: datetime
     updated_at: Optional[datetime]
 
@@ -18,11 +20,13 @@ class ProfileResponse(BaseModel):
 
 
 class UserResponse(BaseModel):
-    id: int
+    id: UUID = Field(
+        validation_alias="public_id",
+        serialization_alias="id",
+    )
     email: EmailStr
-    username: str
+    email_verified_at: Optional[datetime]
     is_active: bool
-    is_verified: bool
     created_at: datetime
     updated_at: Optional[datetime]
     profile: Optional[ProfileResponse]
